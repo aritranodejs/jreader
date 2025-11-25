@@ -46,10 +46,58 @@
 
 body {
   font-family: 'Nunito', sans-serif;
-  background-color: var(--color-background);
+  background: linear-gradient(135deg, #E0E7FF 0%, #FAE8FF 25%, #FEF3C7 50%, #DBEAFE 75%, #E0F2FE 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
   color: var(--color-text);
   line-height: 1.6;
   overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Animated background gradient */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Floating particles background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
 }
 
 h1,
@@ -59,8 +107,12 @@ h4,
 h5,
 h6 {
   font-family: 'Fredoka', sans-serif;
-  color: var(--color-secondary);
+  background: linear-gradient(135deg, #7C3AED, #EC4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: var(--spacing-sm);
+  filter: drop-shadow(0 2px 4px rgba(124, 58, 237, 0.15));
 }
 
 button {
@@ -85,6 +137,8 @@ a {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--spacing-md);
+  position: relative;
+  z-index: 1;
 }
 
 .flex-center {
@@ -98,6 +152,51 @@ a {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: var(--spacing-lg);
   padding: var(--spacing-lg) 0;
+}
+
+/* Staggered animation for cards */
+.grid-books>* {
+  animation: fadeInUp 0.6s ease backwards;
+}
+
+.grid-books>*:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.grid-books>*:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.grid-books>*:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.grid-books>*:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.grid-books>*:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.grid-books>*:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.grid-books>*:nth-child(n+7) {
+  animation-delay: 0.35s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Animations */
@@ -162,5 +261,190 @@ body>div {
 
   50% {
     opacity: 1;
+  }
+}
+
+/* Floating emoji decorations - Desktop only */
+@media (min-width: 769px) {
+  body::after {
+    content: '✨📚🌟🎨🚀⭐🎯💫';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 2rem;
+    pointer-events: none;
+    z-index: 0;
+    animation: floatEmojis 30s linear infinite;
+    opacity: 0.15;
+    letter-spacing: 15rem;
+    line-height: 10rem;
+    word-spacing: 10rem;
+  }
+
+  @keyframes floatEmojis {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+    }
+
+    100% {
+      transform: translateY(-100vh) rotate(360deg);
+    }
+  }
+}
+
+/* Pulse glow effect for important elements */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.4));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 20px rgba(118, 75, 162, 0.6));
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+}
+
+/* Responsive Design - Mobile First */
+@media (max-width: 768px) {
+
+  /* Optimize background for mobile performance */
+  body {
+    background-size: 200% 200%;
+    animation: gradientShift 20s ease infinite;
+  }
+
+  /* Hide floating particles on mobile for performance */
+  body::before {
+    display: none;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .grid-books {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 1rem 0;
+  }
+
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  h2 {
+    font-size: 1.2rem !important;
+  }
+
+  /* Better touch targets */
+  button {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  /* Reduce blur for mobile performance */
+  .container>div {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+}
+
+/* Tablet Optimization */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid-books {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .grid-books {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  h1 {
+    font-size: 1.3rem !important;
+  }
+
+  h2 {
+    font-size: 1.1rem !important;
+  }
+
+  /* Smaller shadows on mobile */
+  * {
+    box-shadow: none !important;
+  }
+
+  *:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+}
+
+/* Improve touch interactions on mobile */
+@media (hover: none) and (pointer: coarse) {
+  button:active {
+    transform: scale(0.95);
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Disable 3D transforms on mobile for performance */
+  * {
+    transform: none !important;
+  }
+
+  *:hover {
+    transform: scale(1.02) !important;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .grid-books {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
   }
 }

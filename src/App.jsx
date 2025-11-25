@@ -4,12 +4,34 @@ import BookCard from './components/BookCard';
 import Reader from './components/Reader';
 import CategoryTabs from './components/CategoryTabs';
 import FlashCard from './components/FlashCard';
+import WelcomeAnimation from './components/WelcomeAnimation';
 import { contentData } from './data/staticContent';
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [category, setCategory] = useState('stories'); // stories, alphabets, maths
   const [lang, setLang] = useState('en'); // en, es
+
+  const sectionTitles = {
+    stories: { en: 'Popular Books', es: 'Libros Populares', bn: 'জনপ্রিয় বই' },
+    alphabets: { en: 'Learn ABCs', es: 'Aprende el ABC', bn: 'বর্ণমালা শিখুন' },
+    maths: { en: 'Fun with Numbers', es: 'Diversión con Números', bn: 'সংখ্যা নিয়ে মজা' },
+    colors: { en: 'Learn Colors', es: 'Aprende Colores', bn: 'রং শিখুন' },
+    shapes: { en: 'Explore Shapes', es: 'Explora Formas', bn: 'আকার দেখুন' },
+    animals: { en: 'Discover Animals', es: 'Descubre Animales', bn: 'প্রাণী জানুন' },
+    fruits: { en: 'Fresh Fruits', es: 'Frutas Frescas', bn: 'তাজা ফল' },
+    vegetables: { en: 'Healthy Vegetables', es: 'Verduras Saludables', bn: 'স্বাস্থ্যকর সবজি' },
+    bodyparts: { en: 'Body Parts', es: 'Partes del Cuerpo', bn: 'শরীরের অংশ' },
+    days: { en: 'Days of the Week', es: 'Días de la Semana', bn: 'সপ্তাহের দিন' },
+    months: { en: 'Months of the Year', es: 'Meses del Año', bn: 'বছরের মাস' },
+    weather: { en: 'Weather & Seasons', es: 'Clima y Estaciones', bn: 'আবহাওয়া এবং ঋতু' },
+    verbs: { en: 'Action Words', es: 'Palabras de Acción', bn: 'ক্রিয়া শব্দ' },
+    professions: { en: 'Community Helpers', es: 'Ayudantes Comunitarios', bn: 'পেশা' },
+  };
+
+  const getSectionTitle = (category, language) => {
+    return sectionTitles[category]?.[language] || 'Explore & Learn';
+  };
 
   const currentContent = contentData[lang][category];
 
@@ -23,31 +45,49 @@ function App() {
 
   const styles = {
     hero: {
-      backgroundColor: 'var(--color-primary)',
-      color: 'white',
-      padding: 'var(--spacing-xl) var(--spacing-md)',
+      background: 'rgba(255, 255, 255, 0.6)',
+      backdropFilter: 'blur(20px) saturate(180%)',
+      WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+      border: '2px solid rgba(255, 255, 255, 0.8)',
+      padding: 'clamp(1.5rem, 5vw, 3.5rem) var(--spacing-md)',
       textAlign: 'center',
       borderRadius: 'var(--radius-lg)',
-      margin: 'var(--spacing-md) 0',
-      boxShadow: 'var(--shadow-md)',
-      backgroundImage: 'linear-gradient(135deg, #4CC9F0 0%, #7209B7 100%)',
+      margin: 'var(--spacing-sm) 0',
+      boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
+      position: 'relative',
+      overflow: 'hidden',
     },
     heroTitle: {
-      fontSize: '2.5rem',
+      fontSize: 'clamp(1.8rem, 6vw, 3rem)',
       marginBottom: 'var(--spacing-sm)',
-      color: 'white',
+      background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text',
+      lineHeight: '1.2',
+      fontWeight: '800',
+      letterSpacing: '0.5px',
     },
     heroText: {
-      fontSize: '1.2rem',
-      opacity: 0.9,
-      maxWidth: '600px',
+      fontSize: 'clamp(1rem, 3vw, 1.3rem)',
+      color: '#374151',
+      maxWidth: '700px',
       margin: '0 auto',
+      lineHeight: '1.6',
+      fontWeight: '500',
     },
     sectionTitle: {
       textAlign: 'center',
       margin: 'var(--spacing-lg) 0 var(--spacing-md)',
-      fontSize: '2rem',
+      fontSize: 'clamp(1.5rem, 5vw, 2.5rem)',
+      fontWeight: '800',
+      background: 'linear-gradient(135deg, #7C3AED 0%, #EC4899 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text',
       textTransform: 'capitalize',
+      position: 'relative',
+      padding: '0.5rem 0',
     }
   };
 
@@ -80,15 +120,7 @@ function App() {
           <CategoryTabs activeCategory={category} onSelectCategory={setCategory} />
 
           <h2 style={styles.sectionTitle}>
-            {category === 'stories' && lang === 'en' && 'Popular Books'}
-            {category === 'stories' && lang === 'es' && 'Libros Populares'}
-            {category === 'stories' && lang === 'bn' && 'জনপ্রিয় বই'}
-            {category === 'alphabets' && lang === 'en' && 'Learn ABCs'}
-            {category === 'alphabets' && lang === 'es' && 'Aprende el ABC'}
-            {category === 'alphabets' && lang === 'bn' && 'বর্ণমালা শিখুন'}
-            {category === 'maths' && lang === 'en' && 'Fun with Numbers'}
-            {category === 'maths' && lang === 'es' && 'Diversión con Números'}
-            {category === 'maths' && lang === 'bn' && 'সংখ্যা নিয়ে মজা'}
+            {getSectionTitle(category, lang)}
           </h2>
 
           <div className="grid-books">
@@ -107,6 +139,7 @@ function App() {
 
   return (
     <div>
+      <WelcomeAnimation />
       {renderContent()}
     </div>
   );
