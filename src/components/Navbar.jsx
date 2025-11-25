@@ -44,6 +44,12 @@ const Navbar = ({ currentLang, onToggleLanguage }) => {
             alignItems: 'center',
             gap: '10px',
         },
+        logoImg: {
+            width: '40px',
+            height: '40px',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 2px 8px rgba(124, 58, 237, 0.3))',
+        },
         logoHighlight: {
             background: 'linear-gradient(135deg, #EC4899 0%, #F59E0B 100%)',
             WebkitBackgroundClip: 'text',
@@ -69,7 +75,7 @@ const Navbar = ({ currentLang, onToggleLanguage }) => {
     return (
         <nav style={styles.nav}>
             <div style={styles.logo}>
-                <span>📚</span>
+                <img src="/logo.png" alt="JuniorReader Logo" style={styles.logoImg} />
                 <span>Junior<span style={styles.logoHighlight}>Reader</span></span>
             </div>
             <button
